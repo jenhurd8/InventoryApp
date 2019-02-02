@@ -1,3 +1,8 @@
 <resources>
+    <!-- database constant values -->
     <string name="app_name">Inventory_App</string>
+    <string name="inventory">inventory</string>
+    <string name="name">name</string>
+    <string name="supplier_name">supplier_name</string>
+    <string name="supplier_phone">supplier_phone</string>
 </resources>
