@@ -1,13 +1,24 @@
 package com.example.inventory_app;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.*;
+import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
+
+import com.example.inventory_app.data.InventoryContract;
+import com.example.inventory_app.data.InventoryDbHelper;
 
 //displays inventory list that has been entered and stored in the app
 public class MainActivity extends AppCompatActivity {
+
+    //database helper that will provide us with access to the database - m for member variable
+    private InventoryDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,14 +27,127 @@ public class MainActivity extends AppCompatActivity {
 
         //setup floating action button to open editor
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
         });
+
+        //to access the database, instantiate our subclass of sqLiteOpenHelper
+        //and pass context - which is our current activity
+        mDbHelper = new InventoryDbHelper(this);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        displayDatabaseData();
+    }
+
+    //temporary helper method to display info to the screen text view about the state of the pets database
+    //and to verify working ok
+    private void displayDatabaseData() {
+    //create and/or open the database to read it
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        //Define a projection (or view of desired content) from the database in your query
+        String[] projection = {
+                InventoryContract.InventoryEntry._ID,
+                InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME,
+                InventoryContract.InventoryEntry.COLUMN_PRICE,
+                InventoryContract.InventoryEntry.COLUMN_QUANTITY,
+                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME,
+                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE };
+
+        //query of the inventory table
+        Cursor cursor = db.query(
+                InventoryContract.InventoryEntry.TABLE_NAME, //query table
+                projection,        //return columns chosen in projection above
+                null,     //WHERE clause would be listed here
+                null,  //values for WHERE clause
+                null,      //no group rows
+                null,       //no filter row group
+                null);      //sort order
+
+        TextView displayView = (TextView) findViewById(R.id.text_view_inventory_item);
+
+        try {
+            //create a header in the text view that shows the cursor data
+            //in while loop, iterate through rows of the cursor and display in order
+
+            displayView.setText("The inventory table contents are: " + cursor.getCount() +
+                    " inventory. \n\n");
+            displayView.append(InventoryContract.InventoryEntry._ID + " - " +
+                    InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME + " - " +
+                    InventoryContract.InventoryEntry.COLUMN_PRICE + " - " +
+                    InventoryContract.InventoryEntry.COLUMN_QUANTITY + " - " +
+                    InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME + " - " +
+                    InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE + "\n");
+
+            //find the index of the column
+            int idColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry._ID);
+            int productNameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME);
+            int priceColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRICE);
+            int quantityColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_QUANTITY);
+            int supplierNameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME);
+            int supplierPhoneColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE);
+
+            //iterate through the items
+            while (cursor.moveToNext()){
+                //use index to extract String or int at the current row cursor is on
+                int currentRowID = cursor.getInt(idColumnIndex);
+                String currentProductName = cursor.getString(productNameColumnIndex);
+                int currentProductPrice = cursor.getInt(priceColumnIndex);
+                int currentProductQuantity = cursor.getInt(quantityColumnIndex);
+                String currentSupplierName = cursor.getString(supplierNameColumnIndex);
+                String currentSupplierPhone = cursor.getString(supplierPhoneColumnIndex);
+                //displays values of the current row in the text view
+                displayView.append(("\n" + currentRowID + " - " +
+                       currentProductName + " - " +
+                        currentProductPrice + " - " +
+                        currentProductQuantity + " - " +
+                        currentSupplierName + " - " +
+                        currentSupplierPhone));
+            }
+
+        }finally {
+            //close the cursor when complete and release resources - makes invalid
+            cursor.close();
+        }
+
+        }
+
+
+    //helper method to test hard coded data, testing only
+
+    private void insertInventoryItem(){
+        //puts database in writeable mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        //create contentValues object with column names as keys and attributes as values
+        ContentValues values = new ContentValues();
+        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, "Product XYZ");
+        values.put(InventoryContract.InventoryEntry.COLUMN_PRICE, 123);
+        values.put(InventoryContract.InventoryEntry.COLUMN_QUANTITY, 987);
+        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME, "Supplier Co");
+        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE, "888-800-1234");
+
+        //insert a new row for our test object
+        //first argument is table name, second is column to insert null if Content value is empty,
+        //third is content values object
+        long newInventoryTestRowId = db.insert(InventoryContract.InventoryEntry.TABLE_NAME, null, values);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        //inflates menu from res/menu/menu
+        //adds menu to the app bar
+        getMenuInflater().inflate(R.menu.menu_inventory, menu);
+        return true;
+    }
+
 
 
 }

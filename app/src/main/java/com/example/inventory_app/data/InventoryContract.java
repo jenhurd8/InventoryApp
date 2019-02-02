@@ -25,10 +25,10 @@ public final class InventoryContract {
         public final static String COLUMN_PRODUCT_NAME = App.getContext().getResources().getString(R.string.name);
 
         //price of the item - type: integer
-        public final static int COLUMN_PRICE = 0;
+        public final static String COLUMN_PRICE = App.getContext().getResources().getString(R.string.price);
 
         //quantity of the item - type: integer
-        public final static int COLUMN_QUANTITY = 0;
+        public final static String COLUMN_QUANTITY = App.getContext().getResources().getString(R.string.quantity);
 
         //supplier name - type: text
         public final static String COLUMN_SUPPLIER_NAME = App.getContext().getResources().getString(R.string.supplier_name);
