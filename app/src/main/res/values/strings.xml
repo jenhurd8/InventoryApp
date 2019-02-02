@@ -5,4 +5,5 @@
     <string name="name">name</string>
     <string name="supplier_name">supplier_name</string>
     <string name="supplier_phone">supplier_phone</string>
+    <string name="inventory_db">inventory.db</string>
 </resources>

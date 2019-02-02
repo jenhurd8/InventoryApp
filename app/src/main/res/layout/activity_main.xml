@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <!--tools:context=".CatalogActivity">-->
 
     <TextView
         android:id="@+id/text_view_inventory_item"
@@ -12,12 +11,12 @@
         android:layout_height="wrap_content"
         android:text="My Inventory App" />
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/floating_action_button"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_margin="16dp" />-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_my_icon"
+        android:layout_margin="16dp" />
 
 </RelativeLayout>
