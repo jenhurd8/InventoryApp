@@ -5,11 +5,11 @@
     tools:context=".MainActivity">
     <item
         android:id="@+id/action_insert_test_data"
-        android:title="test data"
+        android:title="@string/add_test_data_item"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_delete_test_entries"
-        android:title="delete test data"
+        android:title="@string/delete_test_data"
         app:showAsAction="never"/>
 
 </menu>

@@ -9,16 +9,14 @@
         android:id="@+id/text_view_inventory_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Inventory App" />
+        android:text="@string/my_inventory_app" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="16dp" />
-        <!--android:src="@drawable/ic_my_fab"-->
-
 
 </RelativeLayout>

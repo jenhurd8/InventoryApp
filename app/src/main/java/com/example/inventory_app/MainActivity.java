@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.*;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     //temporary helper method to display info to the screen text view about the state of the pets database
     //and to verify working ok
     private void displayDatabaseData() {
-    //create and/or open the database to read it
+        //create and/or open the database to read it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         //Define a projection (or view of desired content) from the database in your query
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 InventoryContract.InventoryEntry.COLUMN_PRICE,
                 InventoryContract.InventoryEntry.COLUMN_QUANTITY,
                 InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME,
-                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE };
+                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE};
 
         //query of the inventory table
         Cursor cursor = db.query(
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             int supplierPhoneColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE);
 
             //iterate through the items
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 //use index to extract String or int at the current row cursor is on
                 int currentRowID = cursor.getInt(idColumnIndex);
                 String currentProductName = cursor.getString(productNameColumnIndex);
@@ -105,24 +106,22 @@ public class MainActivity extends AppCompatActivity {
                 String currentSupplierPhone = cursor.getString(supplierPhoneColumnIndex);
                 //displays values of the current row in the text view
                 displayView.append(("\n" + currentRowID + " - " +
-                       currentProductName + " - " +
+                        currentProductName + " - " +
                         currentProductPrice + " - " +
                         currentProductQuantity + " - " +
                         currentSupplierName + " - " +
                         currentSupplierPhone));
             }
 
-        }finally {
+        } finally {
             //close the cursor when complete and release resources - makes invalid
             cursor.close();
         }
-
-        }
+    }
 
 
     //helper method to test hard coded data, testing only
-
-    private void insertInventoryItem(){
+    private void insertInventoryItem() {
         //puts database in writeable mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -141,13 +140,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         //inflates menu from res/menu/menu
         //adds menu to the app bar
         getMenuInflater().inflate(R.menu.menu_inventory, menu);
         return true;
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //user clicked menu item in the app bar
+        switch (item.getItemId()) {
+            //response to click get dummy data
+            case R.id.action_insert_test_data:
+                insertInventoryItem();
+                displayDatabaseData();
+                return true;
+            //respond to click delete all entries
+            case R.id.action_delete_test_entries:
+                //do nothing at this time
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
