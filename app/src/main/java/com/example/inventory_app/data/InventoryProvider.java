@@ -78,6 +78,12 @@ public class InventoryProvider extends ContentProvider {
 
     //insert inventory into the database with given content. return the new content uri for that row
     private Uri insertInventory(Uri uri, ContentValues values){
+
+        String name = values.getAsString(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME);
+        if(name == null){
+            throw new IllegalArgumentException("Inventory item requires a name");
+        }
+
         //get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
@@ -95,7 +101,18 @@ public class InventoryProvider extends ContentProvider {
     //updates data at the given selection with the new ContentValues
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs){
-        return 0;
+//        final int match = sUriMatcher.match(uri);
+//        switch(match){
+//            case INVENTORY:
+//                return updateInventory(uri, contentValues, selection, selectionArgs);
+//            case INVENTORY_ID:
+//                selection = InventoryContract.InventoryEntry._ID + "=?";
+//                return updateInventory(uri, contentValues, selection, selectionArgs);
+//            default:
+//                throw new IllegalArgumentException("Update is not supported " + uri);
+//
+//        }
+     return 0;
     }
 
     //deletes the data at the given selection and arguments
