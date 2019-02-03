@@ -1,5 +1,6 @@
 package com.example.inventory_app.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.example.inventory_app.App;
@@ -10,6 +11,16 @@ public final class InventoryContract extends App {
     //Empty constructor - to prevent accidental instantiation of the contract class
     private InventoryContract() {
     }
+
+    //content authority for the entire content provider
+    //convenient string to use for the content authority is the unique package name of the app
+    public static final String CONTENT_AUTHORITY = "com.example.android.inventory_app";
+
+    //use content authority to create the base of all uris which will connect
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+
+    //possible path example: content://com.example.android.inventory_app/inventory/
+    public static final String PATH_INVENTORY = "inventory";
 
     //Inner class that defines constants for the Inventory database table
     //Each entry in the table will be a single item
@@ -35,6 +46,9 @@ public final class InventoryContract extends App {
 
         //supplier phone number - type: text
         public final static String COLUMN_SUPPLIER_PHONE = "supplier_phone";
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INVENTORY);
+
     }
 
 }
