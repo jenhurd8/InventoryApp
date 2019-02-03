@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 //content provider for inventory app
 public class InventoryProvider extends ContentProvider {
@@ -64,7 +65,31 @@ public class InventoryProvider extends ContentProvider {
     //insert new data into the provider with the given ContentValues
     @Override
     public Uri insert(Uri uri, ContentValues contentValues){
+        //to be implemented later
+//        final int match = sUriMatcher.match(uri);
+//        switch (match){
+//            case INVENTORY:
+//                return insertInventory(uri, contentValues);
+//            default:
+//                throw new IllegalArgumentException("Insertion is not supported for this uri " + uri);
+//        }
         return null;
+    }
+
+    //insert inventory into the database with given content. return the new content uri for that row
+    private Uri insertInventory(Uri uri, ContentValues values){
+        //get writeable database
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        //insert a new inventory item into the table
+        long id = database.insert(InventoryContract.InventoryEntry.TABLE_NAME, null, values);
+
+        if(id ==-1){
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+        //after insert find the new ID and return the URI with the ID appended
+        return ContentUris.withAppendedId(uri, id);
     }
 
     //updates data at the given selection with the new ContentValues

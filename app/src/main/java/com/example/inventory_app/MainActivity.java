@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
                 null,       //no filter row group
                 null);      //sort order
 
+        //TODO: need to comment out cursor above and implement below
+        //Cursor cursor = getContentResolver().query(InventoryContract
+        // .InventoryEntry.CONTENT_URI, projection, null, null, null):
+
         TextView displayView = (TextView) findViewById(R.id.text_view_inventory_item);
 
         try {
