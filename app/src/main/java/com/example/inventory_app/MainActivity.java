@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.*;
@@ -141,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
         //first argument is table name, second is column to insert null if Content value is empty,
         //third is content values object
         long newInventoryTestRowId = db.insert(InventoryContract.InventoryEntry.TABLE_NAME, null, values);
+
+        //update this to now use a content URI to allow us to access the data
+        //Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, values);
     }
 
     @Override
