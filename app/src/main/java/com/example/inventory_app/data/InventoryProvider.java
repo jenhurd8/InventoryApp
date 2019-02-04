@@ -88,6 +88,7 @@ public class InventoryProvider extends ContentProvider {
         }
         //set notification uri on the cursor so we know what content URI the cursor was created for
         //if the data at this URI changes, then we update the cursor
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
 
@@ -148,6 +149,10 @@ public class InventoryProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
+
+        //notify all listeners that the data has changed
+        getContext().getContentResolver().notifyChange(uri, null);
+
         //after insert find the new ID and return the URI with the ID appended
         return ContentUris.withAppendedId(uri, id);
     }

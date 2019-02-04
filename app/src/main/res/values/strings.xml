@@ -19,5 +19,10 @@
     <string name="delete_test_data">delete test data</string>
     <string name="there_is_nothing_here_to_see">There is nothing here to see!</string>
     <string name="add_an_item">Add an item to start the inventory list!</string>
+    <string name="add_item">Add an item</string>
+    <string name="edit_item">Edit an item</string>
+
+    <!-- editor strings -->
+    <string name="item_name">Item Name</string>
 
 </resources>

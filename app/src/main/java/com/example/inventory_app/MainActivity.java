@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements
 
         //set adapter to create a list item for each row of data returned from the cursor
         InventoryCursorAdapter adapter = new InventoryCursorAdapter(this, null);
-
         //attach the adapter to the list view
         itemListView.setAdapter(adapter);
 
@@ -248,12 +247,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader <Cursor> loader, Cursor data) {
     //update cursor with inventory data
-        mCursorAdapter.swapCursor(data);
+//        mCursorAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader <Cursor> loader) {
     //delete data from cursor
-        mCursorAdapter.swapCursor(null);
+//        mCursorAdapter.swapCursor(null);
     }
 }
