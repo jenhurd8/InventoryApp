@@ -18,7 +18,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
     //database version, traditionally set at 1. changed database will increment this number
     private static final int DATABASE_VERSION = 1;
 
-    //construct a new instance of inventory dbhelper
+    //construct a new instance of inventory db helper
     //param - context of the app
     public InventoryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
