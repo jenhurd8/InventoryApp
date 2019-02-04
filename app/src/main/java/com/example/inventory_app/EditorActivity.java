@@ -19,6 +19,10 @@ import com.example.inventory_app.data.InventoryContract;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
+    //inventory loader identifier
+    private static final int EXISTING_INVENTORY_LOADER = 0;
+
+    //content uri for the existing item, null if its a new item
     private Uri mCurrentItemUri;
 
     //fields to edit item values
@@ -55,6 +59,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }else {
             //otherwise if an existing pet, show edit item
             setTitle(getString(R.string.edit_item));
+
+            //initialize the loader to read the item data from the database
+            //and display the current values in the editor
+            getLoaderManager().initLoader(EXISTING_INVENTORY_LOADER, null, this);
         }
 
         //find relevent views
@@ -101,12 +109,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-//    private void insertInventory(){
-//       // read from inputs, use trim to remove leading and trailing whitespace
-//        String nameString = mNameEditText.getText().toString().trim;
-//
-////        Create a contentValues object where column names are keys and inventory
-////        attributes from the editor are the values
+    private void insertInventory(){
+       // read from inputs, use trim to remove leading and trailing whitespace
+        String nameString = mItemNameEditText.getText().toString().trim();
+
+        //leave off here******need to get integers?
+
+//        Create a contentValues object where column names are keys and inventory
+//        attributes from the editor are the values
 //        ContentValues values = new ContentValues();
 //        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, nameString);
 //
@@ -121,5 +131,5 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 //            Toast.makeText(this, getString(R.string.editor_insert_item_success),
 //                    Toast.LENGTH_SHORT).show();
 //        }
-//    }
+    }
 }
