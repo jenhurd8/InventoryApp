@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -109,27 +110,63 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-    private void insertInventory(){
+    private void saveInventory(){
        // read from inputs, use trim to remove leading and trailing whitespace
         String nameString = mItemNameEditText.getText().toString().trim();
+        int priceInt = Integer.parseInt(mItemPriceEditText.getText().toString().trim());
+        int quantityInt = Integer.parseInt(mItemQuantityEditText.getText().toString().trim());
+        String supplierString = mItemSupplierEditText.getText().toString().trim();
+        String supplierPhoneString = mItemSupplierPhoneEditText.getText().toString().trim();
 
-        //leave off here******need to get integers?
+        //check if new item and if all fields in the editor are blank
+        if (mCurrentItemUri == null &&
+                //need to add price int and quantity int checks
+                TextUtils.isEmpty(nameString) &&
+                TextUtils.isEmpty(getString(priceInt)) &&
+                TextUtils.isEmpty(getString(quantityInt)) &&
+                TextUtils.isEmpty(supplierString) &&
+                TextUtils.isEmpty(supplierPhoneString)){
+            return;
+        }
 
 //        Create a contentValues object where column names are keys and inventory
 //        attributes from the editor are the values
-//        ContentValues values = new ContentValues();
-//        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, nameString);
-//
-//        //insert a new inventory item into the provider returning the content uri for the new item
-//        Uri newUri = getContentResolver.insert(InventoryContract.InventoryEntry.CONTENT_URI, values);
-//
-//        //Show a toast message to confirm if successful or show failure
-//        if(newUri == null){
-//            Toast.makeText(this, getString(R.string.editor_insert_item_failed),
-//                    Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(this, getString(R.string.editor_insert_item_success),
-//                    Toast.LENGTH_SHORT).show();
-//        }
+        ContentValues values = new ContentValues();
+        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, nameString);
+        values.put(InventoryContract.InventoryEntry.COLUMN_PRICE, priceInt);
+        values.put(InventoryContract.InventoryEntry.COLUMN_QUANTITY, quantityInt);
+        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME, nameString);
+        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE, nameString);
+
+        //determine if new or existing item by checking mCurrentItemUri is null or no
+        if(mCurrentItemUri == null) {
+            //new item needs insert into provider and return uri
+            Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, values);
+
+            //Show a toast message to confirm if successful or show failure
+            if (newUri == null) {
+                Toast.makeText(this, getString(R.string.editor_insert_item_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.editor_insert_item_success),
+                        Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            //if existing item, update the content uri and pass values
+            //pass null for selection and selection args since currentItemUri already identified
+
+            int rowsAffected = getContentResolver().update(mCurrentItemUri, values, null, null);
+
+            //show a toast for success or failure
+            if(rowsAffected == 0){
+                //if no rows affected show error
+                Toast.makeText(this, getString(R.string.editor_insert_item_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                //success toast
+                Toast.makeText(this, getString(R.string.editor_insert_item_success),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
