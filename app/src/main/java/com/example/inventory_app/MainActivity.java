@@ -1,16 +1,22 @@
 package com.example.inventory_app;
 
+import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.*;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,10 +24,15 @@ import com.example.inventory_app.data.InventoryContract;
 import com.example.inventory_app.data.InventoryDbHelper;
 
 //displays inventory list that has been entered and stored in the app
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int INVENTORY_LOADER = 0;
+
+    InventoryCursorAdapter mCursorAdapter;
 
     //database helper that will provide us with access to the database - m for member variable
-    private InventoryDbHelper mDbHelper;
+   // private InventoryDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         //to access the database, instantiate our subclass of sqLiteOpenHelper
         //and pass context - which is our current activity
-        mDbHelper = new InventoryDbHelper(this);
+        //mDbHelper = new InventoryDbHelper(this);
 
         //setup floating action button to open editor
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -41,19 +52,53 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //find the list view which will populate the inventory data
+        ListView itemListView = (ListView) findViewById(R.id.list);
+
+        //find and set the empty view so that it only shows when 0 items
+        View emptyView = findViewById(R.id.empty_view);
+        itemListView.setEmptyView(emptyView);
+
+        //set adapter to create a list item for each row of data returned from the cursor
+        InventoryCursorAdapter adapter = new InventoryCursorAdapter(this, null);
+
+        //attach the adapter to the list view
+        itemListView.setAdapter(adapter);
+
+        //set the click listener
+        itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //create new intent
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+
+                //form the uri content specific to item clicked on by appending the id to the uri
+                Uri currentItem = ContentUris.withAppendedId(InventoryContract.InventoryEntry.CONTENT_URI, id);
+
+                //set the uri on the data field of the intent
+                intent.setData(currentItem);
+
+                //launch the editor activity to display the current item
+                startActivity(intent);
+            }
+        });
+        //start the loader
+        getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseData();
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        displayDatabaseData();
+//    }
+
 
     //temporary helper method to display info to the screen text view about the state of the pets database
     //and to verify working ok
     private void displayDatabaseData() {
         //create and/or open the database to read it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+       // SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         //Define a projection (or view of desired content) from the database in your query
         String[] projection = {
@@ -78,18 +123,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = getContentResolver().query(InventoryContract
                 .InventoryEntry.CONTENT_URI, projection, null, null, null);
 
-        //find the list view which will populate the inventory data
-        ListView itemListView = (ListView) findViewById(R.id.list);
 
-        //find and set the empty view so that it only shows when 0 items
-        View emptyView = findViewById(R.id.empty_view);
-        itemListView.setEmptyView(emptyView);
-
-        //set adapter to create a list item for each row of data returned from the cursor
-        InventoryCursorAdapter adapter = new InventoryCursorAdapter(this, cursor);
-
-        //attach the adapter to the list view
-        itemListView.setAdapter(adapter);
 
         // TextView displayView = (TextView) findViewById(R.id.text_view_inventory_item);
 
@@ -142,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     //helper method to test hard coded data, testing only
     private void insertInventoryItem() {
         //puts database in write-able mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        //SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         //create contentValues object with column names as keys and attributes as values
         ContentValues values = new ContentValues();
@@ -155,10 +189,16 @@ public class MainActivity extends AppCompatActivity {
         //insert a new row for our test object
         //first argument is table name, second is column to insert null if Content value is empty,
         //third is content values object
-        long newInventoryTestRowId = db.insert(InventoryContract.InventoryEntry.TABLE_NAME, null, values);
+        //long newInventoryTestRowId = db.insert(InventoryContract.InventoryEntry.TABLE_NAME, null, values);
 
-        //update this to now use a content URI to allow us to access the data
-        //Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, values);
+        //use a content URI to allow us to access the data
+        Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, values);
+    }
+
+    //method to delete all items
+    private void deleteAllItems(){
+        int rowsDeleted = getContentResolver().delete(InventoryContract.InventoryEntry.CONTENT_URI, null, null);
+        Log.v("MainActivity", rowsDeleted + " rows deleted from the inventory database");
     }
 
     @Override
@@ -186,4 +226,34 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        //define projection
+        String[] projection = {
+                InventoryContract.InventoryEntry._ID,
+                InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME,
+                InventoryContract.InventoryEntry.COLUMN_PRICE,
+                InventoryContract.InventoryEntry.COLUMN_QUANTITY,
+                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME,
+                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE};
+
+                return new CursorLoader(this,
+                        InventoryContract.InventoryEntry.CONTENT_URI,
+                        projection,
+                        null,
+                        null,
+                        null);
+        }
+
+    @Override
+    public void onLoadFinished(Loader <Cursor> loader, Cursor data) {
+    //update cursor with inventory data
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader <Cursor> loader) {
+    //delete data from cursor
+        mCursorAdapter.swapCursor(null);
+    }
 }
