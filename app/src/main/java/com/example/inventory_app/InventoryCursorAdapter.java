@@ -55,8 +55,8 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         //Update the textViews with the attributes of the current item
         nameTextView.setText(itemName);
-//        priceTextView.setText(itemPrice);
-//        quantityTextView.setText(itemQuantity);
+       priceTextView.setText(String.valueOf(itemPrice));
+       quantityTextView.setText(String.valueOf(itemQuantity));
         supplierTextView.setText(supplierName);
         supplierPhoneTextView.setText(supplierPhone);
 
