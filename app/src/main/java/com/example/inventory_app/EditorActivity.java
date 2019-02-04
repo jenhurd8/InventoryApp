@@ -45,6 +45,18 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        Intent intent = getIntent();
+        Uri currentItemUri = ((Intent) intent).getData();
+
+        //if intent does not contain an item URI then we are creating a new item
+        if(currentItemUri == null){
+            //this is a new item, so change the app bar to say add item
+            setTitle(getString(R.string.add_item));
+        }else {
+            //otherwise if an existing pet, show edit item
+            setTitle(getString(R.string.edit_item));
+        }
+
         //find relevent views
         mItemNameEditText = (EditText) findViewById(R.id.edit_item_name);
         mItemPriceEditText = (EditText) findViewById(R.id.edit_item_price);
@@ -57,18 +69,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mItemQuantityEditText.setOnTouchListener(mTouchListener);
         mItemSupplierEditText.setOnTouchListener(mTouchListener);
         mItemSupplierPhoneEditText.setOnTouchListener(mTouchListener);
-
-        Intent intent = getIntent();
-        Uri currentItemUri = ((Intent) intent).getData();
-
-        //if intent does not contain an item URI then we are creating a new item
-        if(currentItemUri == null){
-            //this is a new item, so change the app bar to say add item
-            setTitle(getString(R.string.add_item));
-        }else {
-            //otherwise if an existing pet, show edit item
-            setTitle(getString(R.string.edit_item));
-        }
 
     }
 

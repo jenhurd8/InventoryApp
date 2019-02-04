@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity implements
         itemListView.setEmptyView(emptyView);
 
         //set adapter to create a list item for each row of data returned from the cursor
-        InventoryCursorAdapter adapter = new InventoryCursorAdapter(this, null);
+        mCursorAdapter = new InventoryCursorAdapter(this, null);
         //attach the adapter to the list view
-        itemListView.setAdapter(adapter);
+        itemListView.setAdapter(mCursorAdapter);
 
         //set the click listener
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements
 //                null,       //no filter row group
 //                null);      //sort order
 
+        //this may be unused and need to be deleted
         //TODO: need to comment out cursor above and implement below
         Cursor cursor = getContentResolver().query(InventoryContract
                 .InventoryEntry.CONTENT_URI, projection, null, null, null);
@@ -215,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements
             //response to click get dummy data
             case R.id.action_insert_test_data:
                 insertInventoryItem();
-                displayDatabaseData();
                 return true;
             //respond to click delete all entries
             case R.id.action_delete_test_entries:
@@ -247,12 +247,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader <Cursor> loader, Cursor data) {
     //update cursor with inventory data
-//        mCursorAdapter.swapCursor(data);
+        mCursorAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader <Cursor> loader) {
     //delete data from cursor
-//        mCursorAdapter.swapCursor(null);
+       mCursorAdapter.swapCursor(null);
     }
 }
