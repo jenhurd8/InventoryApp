@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -70,8 +72,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mItemNameEditText = (EditText) findViewById(R.id.edit_item_name);
         mItemPriceEditText = (EditText) findViewById(R.id.edit_item_price);
         mItemQuantityEditText = (EditText) findViewById(R.id.edit_item_quantity);
-        mItemSupplierEditText = (EditText) findViewById(R.id.edit_item_supplier);
-        mItemSupplierPhoneEditText = (EditText) findViewById(R.id.edit_item_supplier_name);
+        mItemSupplierEditText = (EditText) findViewById(R.id.edit_item_supplier_name);
+        mItemSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone_number);
 
         mItemNameEditText.setOnTouchListener(mTouchListener);
         mItemPriceEditText.setOnTouchListener(mTouchListener);
@@ -169,4 +171,28 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             }
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        //inflate the menu options from the res/menu/menu_inventory option
+        getMenuInflater().inflate(R.menu.menu_inventory, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        super.onPrepareOptionsMenu(menu);
+        //if this is a new item, hide the delete option
+        if(mCurrentItemUri == null){
+            MenuItem menuItem = menu.findItem(R.id.action_delete_test_entries);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
+
+    /**call this method after invalidateOptionsMenu()
+    so the menu can be updated*/
+//    @Override
+//    public boolean on
 }
