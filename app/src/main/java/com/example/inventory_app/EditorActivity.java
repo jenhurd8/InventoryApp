@@ -188,12 +188,25 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             menuItem.setVisible(false);
             MenuItem menuItem2 = menu.findItem(R.id.action_insert_test_data);
             menuItem2.setVisible(false);
-
-            //getMenuInflater().inflate(R.menu.menu_save, menu);
-//            MenuItem menuItem3 = menu.findItem(R.drawable.ic_check_white_48dp);
-//            menuItem3.setVisible(true);
         }
 
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        //user clicked on a menu option in the app overflow bar
+        switch (item.getItemId()){
+            //respond to save option
+            case R.id.item_completed:
+                //save to database
+                saveInventory();
+                //exit
+                finish();
+                return true;
+        //respond  to delete menu option
+           // case R.id.item_delete:
+        }
         return true;
     }
 

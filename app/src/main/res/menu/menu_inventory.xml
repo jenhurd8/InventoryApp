@@ -11,4 +11,9 @@
         android:id="@+id/action_delete_test_entries"
         android:title="@string/delete_test_data"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/item_completed"
+        android:title="item completed"
+        android:icon="@drawable/ic_check_white_48dp"
+        app:showAsAction="always"/>
 </menu>

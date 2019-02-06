@@ -11,19 +11,26 @@
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameTextView"
+            android:textSize="16sp"
+            android:text="$"/>
+        <TextView
+            android:id="@+id/priceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameTextView"
+            android:layout_toRightOf="@+id/price"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/quantityTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/nameTextView"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/priceTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/quantityTextView"
+            android:layout_below="@+id/priceTextView"
             android:textSize="20sp" />
 
         <Button
