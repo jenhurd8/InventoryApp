@@ -182,11 +182,18 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
         super.onPrepareOptionsMenu(menu);
-        //if this is a new item, hide the delete option
+        //if this is a new item, hide the menu options
         if(mCurrentItemUri == null){
             MenuItem menuItem = menu.findItem(R.id.action_delete_test_entries);
             menuItem.setVisible(false);
+            MenuItem menuItem2 = menu.findItem(R.id.action_insert_test_data);
+            menuItem2.setVisible(false);
+
+            //getMenuInflater().inflate(R.menu.menu_save, menu);
+//            MenuItem menuItem3 = menu.findItem(R.drawable.ic_check_white_48dp);
+//            menuItem3.setVisible(true);
         }
+
         return true;
     }
 

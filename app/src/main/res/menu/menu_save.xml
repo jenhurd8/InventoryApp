@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
-        android:id="@+id/action_insert_test_data"
-        android:title="@string/add_test_data_item"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_delete_test_entries"
-        android:title="@string/delete_test_data"
+        android:id="@+id/item_completed"
+        android:title="item completed"
+        android:icon="@drawable/ic_check_white_48dp"
         app:showAsAction="never"/>
 </menu>

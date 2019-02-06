@@ -39,10 +39,6 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //to access the database, instantiate our subclass of sqLiteOpenHelper
-        //and pass context - which is our current activity
-        //mDbHelper = new InventoryDbHelper(this);
-
         //setup floating action button to open editor
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -95,38 +91,38 @@ public class MainActivity extends AppCompatActivity implements
 
     //temporary helper method to display info to the screen text view about the state of the pets database
     //and to verify working ok
-    private void displayDatabaseData() {
-        //create and/or open the database to read it
-       // SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        //Define a projection (or view of desired content) from the database in your query
-        String[] projection = {
-                InventoryContract.InventoryEntry._ID,
-                InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME,
-                InventoryContract.InventoryEntry.COLUMN_PRICE,
-                InventoryContract.InventoryEntry.COLUMN_QUANTITY,
-                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME,
-                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE};
-
-        //query of the inventory table
-//        Cursor cursor = db.query(
-//                InventoryContract.InventoryEntry.TABLE_NAME, //query table
-//                projection,        //return columns chosen in projection above
-//                null,     //WHERE clause would be listed here
-//                null,  //values for WHERE clause
-//                null,      //no group rows
-//                null,       //no filter row group
-//                null);      //sort order
-
-        //this may be unused and need to be deleted
-        //TODO: need to comment out cursor above and implement below
-        Cursor cursor = getContentResolver().query(InventoryContract
-                .InventoryEntry.CONTENT_URI, projection, null, null, null);
-
-
-
-        // TextView displayView = (TextView) findViewById(R.id.text_view_inventory_item);
-
+//    private void displayDatabaseData() {
+//        //create and/or open the database to read it
+//       // SQLiteDatabase db = mDbHelper.getReadableDatabase();
+//
+//        //Define a projection (or view of desired content) from the database in your query
+//        String[] projection = {
+//                InventoryContract.InventoryEntry._ID,
+//                InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME,
+//                InventoryContract.InventoryEntry.COLUMN_PRICE,
+//                InventoryContract.InventoryEntry.COLUMN_QUANTITY,
+//                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME,
+//                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE};
+//
+//        //query of the inventory table
+////        Cursor cursor = db.query(
+////                InventoryContract.InventoryEntry.TABLE_NAME, //query table
+////                projection,        //return columns chosen in projection above
+////                null,     //WHERE clause would be listed here
+////                null,  //values for WHERE clause
+////                null,      //no group rows
+////                null,       //no filter row group
+////                null);      //sort order
+//
+//        //this may be unused and need to be deleted
+//        //TODO: need to comment out cursor above and implement below
+//        Cursor cursor = getContentResolver().query(InventoryContract
+//                .InventoryEntry.CONTENT_URI, projection, null, null, null);
+//
+//
+//
+//        // TextView displayView = (TextView) findViewById(R.id.item_details);
+//
 //        try {
 //            //create a header in the text view that shows the cursor data
 //            //in while loop, iterate through rows of the cursor and display in order
@@ -170,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements
 //            //close the cursor when complete and release resources - makes invalid
 //            cursor.close();
 //        }
-    }
+//    }
 
 
     //helper method to test hard coded data, testing only
@@ -181,8 +177,8 @@ public class MainActivity extends AppCompatActivity implements
         //create contentValues object with column names as keys and attributes as values
         ContentValues values = new ContentValues();
         values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, "Product XYZ");
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRICE, 123);
-        values.put(InventoryContract.InventoryEntry.COLUMN_QUANTITY, 987);
+        values.put(InventoryContract.InventoryEntry.COLUMN_PRICE, 999);
+        values.put(InventoryContract.InventoryEntry.COLUMN_QUANTITY, 2);
         values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME, "Supplier Co");
         values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE, "888-800-1234");
 
@@ -219,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements
                 return true;
             //respond to click delete all entries
             case R.id.action_delete_test_entries:
-                //do nothing at this time
+                deleteAllItems();
                 return true;
         }
         return super.onOptionsItemSelected(item);
