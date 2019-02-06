@@ -66,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //create new intent
-                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                //Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                Intent intent = new Intent(MainActivity.this, ItemDetail.class);
 
                 //form the uri content specific to item clicked on by appending the id to the uri
                 Uri currentItem = ContentUris.withAppendedId(InventoryContract.InventoryEntry.CONTENT_URI, id);

@@ -205,9 +205,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 finish();
                 return true;
         //respond  to delete menu option
+            //TODO need to add item detail page first
            // case R.id.item_delete:
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        //if no change, allow to go back
+        if(!mItemHasChanged){
+            super.onBackPressed();
+            return;
+        }
     }
 
 

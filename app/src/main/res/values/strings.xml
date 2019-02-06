@@ -26,6 +26,9 @@
     <string name="item_name">Item Name</string>
     <string name="editor_insert_item_failed">Your insertion has failed</string>
     <string name="editor_insert_item_success">Your insertion was successful!</string>
+
+    <!-- text view labels -->
     <string name="sale">SALE</string>
+    <string name="quantity_heading">"Quantity: "</string>
 
 </resources>

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="12dp">
 
         <TextView
             android:id="@+id/nameTextView"
@@ -27,10 +27,19 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/price"
+            android:textSize="20sp"
+            android:text="@string/quantity_heading"/>
+
+        <TextView
             android:id="@+id/quantityTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/priceTextView"
+            android:layout_below="@+id/price"
+            android:layout_toRightOf="@+id/quantity"
             android:textSize="20sp" />
 
         <Button
