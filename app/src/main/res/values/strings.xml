@@ -38,5 +38,11 @@
     <string name="keep_editing">Keep editing</string>
     <string name="rows_deleted">rows deleted from the inventory database</string>
     <string name="item_completed">item completed</string>
+    <string name="delete">delete</string>
+    <string name="delete_confirmation">Confirm delete of item?</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_delete">Error deleting item</string>
+    <string name="item_deleted">Item deleted</string>
+    <string name="delete_this_item">Delete this item</string>
 
 </resources>

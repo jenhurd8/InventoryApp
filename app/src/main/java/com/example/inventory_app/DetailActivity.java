@@ -164,6 +164,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     public boolean onCreateOptionsMenu(Menu menu){
         //inflate the menu options from the res/menu/menu_inventory option
         getMenuInflater().inflate(R.menu.menu_inventory, menu);
+        MenuItem mockDataAdd = menu.findItem(R.id.action_insert_test_data);
+        MenuItem mockDataDelete = menu.findItem(R.id.action_delete_test_entries);
+        mockDataAdd.setVisible(false);
+        mockDataDelete.setVisible(false);
         return true;
     }
 
@@ -192,10 +196,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 //exit
                 finish();
                 return true;
-            //respond  to delete menu option
-            //TODO
-            // case R.id.item_delete:
-
+            //respond to delete item menu option
+            case R.id.delete:
+                //pop up to confirm
+                showDeleteConfirmation();
+                return true;
             case android.R.id.home:
                 //if item has not changed, continue to navigate to the parent activity
                 if(!mItemHasChanged){
@@ -316,10 +321,46 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
+    private void showDeleteConfirmation(){
+        //alert to verify delete with click listener
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_confirmation);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //user clicks delete
+                deleteItem();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //user clicks cancel
+                if(dialog != null){
+                    dialog.dismiss();
+                }
+            }
+        });
+        //create and show the alert dialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
+    private void deleteItem(){
+        //only perform delete if existing item
+        if(mCurrentItemUri != null){
+            //call content resolver to delete at given uri
+            int rowsDeleted = getContentResolver().delete(mCurrentItemUri, null, null);
 
-    /**call this method after invalidateOptionsMenu()
-    so the menu can be updated*/
-//    @Override
-//    public boolean on
+            //show a toast if successful or not
+            if(rowsDeleted == 0){
+                Toast.makeText(this, R.string.error_delete,
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.item_deleted,
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        finish();
+    }
 }

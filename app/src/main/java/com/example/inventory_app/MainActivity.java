@@ -110,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements
         //adds menu to the app bar
         getMenuInflater().inflate(R.menu.menu_inventory, menu);
 
+        MenuItem delete = menu.findItem(R.id.delete);
+        delete.setVisible(false);
+
         MenuItem menuItem3 = menu.findItem(R.id.item_completed);
         menuItem3.setVisible(false);
         return true;
