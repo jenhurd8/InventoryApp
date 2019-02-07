@@ -30,5 +30,11 @@
     <!-- text view labels -->
     <string name="sale">SALE</string>
     <string name="quantity_heading">"Quantity: "</string>
+    <string name="generic_item">Generic Item</string>
+    <string name="supplier_co">Supplier Co</string>
+    <string name="generic_phone">888-800-1234</string>
+    <string name="discard_changes">Discard changes and leave?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
 
 </resources>

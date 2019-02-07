@@ -1,13 +1,16 @@
 package com.example.inventory_app;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -206,8 +209,28 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 finish();
                 return true;
         //respond  to delete menu option
-            //TODO need to add item detail page first
-           // case R.id.item_delete:
+            //TODO
+          // case R.id.item_delete:
+
+            case android.R.id.home:
+                //if item has not changed, continue to navigate to the parent activity
+                if(!mItemHasChanged){
+                    NavUtils.navigateUpFromSameTask(DetailActivity.this);
+                    return true;
+                }
+
+                //otherwise unsaved changes, warn the user with a click listener
+                DialogInterface.OnClickListener discareButtonClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //user clicked the discard button, navigate to parent activity
+                                NavUtils.navigateUpFromSameTask(DetailActivity.this);
+                            }
+                        };
+                //show user a dialog there are unsaved changes
+                showUnsavedChangesDialog(discareButtonClickListener);
+                return true;
         }
         return true;
     }
@@ -219,6 +242,28 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             super.onBackPressed();
             return;
         }
+    }
+
+    private void showUnsavedChangesDialog(
+        DialogInterface.OnClickListener discardButtonClickListener){
+        //create an alert dialog builder and set the message
+        //and click listeners for positive and negative buttons in the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.discard_changes);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(getString(R.string.keep_editing), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if keep editing, dismiss and keep editing item
+                if(dialog !=null){
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        //create and show the alert dialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 
