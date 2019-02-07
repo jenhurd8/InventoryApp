@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.inventory_app.data.InventoryContract;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements
         });
         //start the loader
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
+
     }
 
     //helper method to test hard coded data, testing only
@@ -159,4 +161,5 @@ public class MainActivity extends AppCompatActivity implements
     //delete data from cursor
        mCursorAdapter.swapCursor(null);
     }
+
 }

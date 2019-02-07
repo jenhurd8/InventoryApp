@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +53,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
@@ -60,10 +61,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mCurrentItemUri = intent.getData();
 
         //if intent does not contain an item URI then we are creating a new item
-        if(mCurrentItemUri == null){
+        if (mCurrentItemUri == null) {
             //this is a new item, so change the app bar to say add item
             setTitle(getString(R.string.add_item));
-        }else {
+        } else {
             //otherwise if an existing pet, show edit item
             setTitle(getString(R.string.edit_item));
 
@@ -84,6 +85,18 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mItemQuantityEditText.setOnTouchListener(mTouchListener);
         mItemSupplierEditText.setOnTouchListener(mTouchListener);
         mItemSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+
+        Button callSupplier = (Button) findViewById(R.id.call_supplier);
+
+        callSupplier.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                String numberToCall = mItemSupplierPhoneEditText.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + numberToCall));
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -266,7 +279,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             mItemSupplierEditText.setText(supplier);
             mItemSupplierPhoneEditText.setText(supplierPhone);
         }
+
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
@@ -300,6 +315,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
 
 
     /**call this method after invalidateOptionsMenu()

@@ -39,6 +39,8 @@ public class InventoryCursorAdapter extends CursorAdapter {
         //TextView supplierTextView = (TextView) view.findViewById(R.id.supplier_nameTextView);
         //TextView supplierPhoneTextView = (TextView) view.findViewById(R.id.supplier_phoneTextView);
 
+
+
         //find the columns of the attributes we are interested in
         int nameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME);
@@ -57,5 +59,8 @@ public class InventoryCursorAdapter extends CursorAdapter {
         nameTextView.setText(itemName);
         priceTextView.setText(String.valueOf(itemPrice));
         quantityTextView.setText(String.valueOf(itemQuantity));
+
+
+
     }
 }
