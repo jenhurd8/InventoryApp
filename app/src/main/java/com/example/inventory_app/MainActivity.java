@@ -7,7 +7,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,10 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.inventory_app.data.InventoryContract;
-import com.example.inventory_app.data.InventoryDbHelper;
 
 //displays inventory list that has been entered and stored in the app
 public class MainActivity extends AppCompatActivity implements
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 startActivity(intent);
             }
         });
@@ -64,10 +61,9 @@ public class MainActivity extends AppCompatActivity implements
         //set the click listener
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //create new intent
-                //Intent intent = new Intent(MainActivity.this, EditorActivity.class);
-                Intent intent = new Intent(MainActivity.this, ItemDetail.class);
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
 
                 //form the uri content specific to item clicked on by appending the id to the uri
                 Uri currentItem = ContentUris.withAppendedId(InventoryContract.InventoryEntry.CONTENT_URI, id);
@@ -203,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements
         //inflates menu from res/menu/menu
         //adds menu to the app bar
         getMenuInflater().inflate(R.menu.menu_inventory, menu);
+
+        MenuItem menuItem3 = menu.findItem(R.id.item_completed);
+        menuItem3.setVisible(false);
         return true;
     }
 

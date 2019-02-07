@@ -17,10 +17,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.net.Uri;
 
 import com.example.inventory_app.data.InventoryContract;
 
-public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     //inventory loader identifier
     private static final int EXISTING_INVENTORY_LOADER = 0;
@@ -53,10 +54,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_editor);
 
         Intent intent = getIntent();
-        Uri currentItemUri = ((Intent) intent).getData();
+        mCurrentItemUri = intent.getData();
 
         //if intent does not contain an item URI then we are creating a new item
-        if(currentItemUri == null){
+        if(mCurrentItemUri == null){
             //this is a new item, so change the app bar to say add item
             setTitle(getString(R.string.add_item));
         }else {
