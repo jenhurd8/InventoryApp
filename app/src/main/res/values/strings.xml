@@ -37,5 +37,6 @@
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep editing</string>
     <string name="rows_deleted">rows deleted from the inventory database</string>
+    <string name="item_completed">item completed</string>
 
 </resources>

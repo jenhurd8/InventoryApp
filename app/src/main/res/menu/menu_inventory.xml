@@ -13,7 +13,7 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/item_completed"
-        android:title="item completed"
+        android:title="@string/item_completed"
         android:icon="@drawable/ic_check_white_48dp"
         app:showAsAction="always"/>
 </menu>

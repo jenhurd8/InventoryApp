@@ -72,7 +72,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             getLoaderManager().initLoader(EXISTING_INVENTORY_LOADER, null, this);
         }
 
-        //find relevent views
+        //find relevant views
         mItemNameEditText = (EditText) findViewById(R.id.edit_item_name);
         mItemPriceEditText = (EditText) findViewById(R.id.edit_item_price);
         mItemQuantityEditText = (EditText) findViewById(R.id.edit_item_quantity);
@@ -86,6 +86,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         mItemSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
     }
+
 
     private void saveInventory(){
         // read from inputs, use trim to remove leading and trailing whitespace
@@ -112,8 +113,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, nameString);
         values.put(InventoryContract.InventoryEntry.COLUMN_PRICE, priceInt);
         values.put(InventoryContract.InventoryEntry.COLUMN_QUANTITY, quantityInt);
-        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME, nameString);
-        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE, nameString);
+        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME, supplierString);
+        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
 
         //determine if new or existing item by checking mCurrentItemUri is null or no
         if(mCurrentItemUri == null) {
@@ -258,8 +259,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             //update the views on the screen with the values
             mItemNameEditText.setText(name);
-            mItemPriceEditText.setText(String.valueOf(price));
-            mItemQuantityEditText.setText(String.valueOf(quantity));
+//            mItemPriceEditText.setText(String.valueOf(price));
+//            mItemQuantityEditText.setText(String.valueOf(quantity));
+            mItemPriceEditText.setText(Integer.toString(price));
+            mItemQuantityEditText.setText(Integer.toString(quantity));
             mItemSupplierEditText.setText(supplier);
             mItemSupplierPhoneEditText.setText(supplierPhone);
         }
