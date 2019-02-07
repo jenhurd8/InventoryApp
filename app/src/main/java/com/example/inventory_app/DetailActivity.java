@@ -103,7 +103,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     private void saveInventory(){
         // read from inputs, use trim to remove leading and trailing whitespace
+
         String nameString = mItemNameEditText.getText().toString().trim();
+//        if(nameString == null){
+//           Toast toast = Toast.makeText(getApplicationContext(),"name cannot be empty", Toast.LENGTH_SHORT);
+//            toast.show();
+//        }
+
         int priceInt = Integer.parseInt((mItemPriceEditText.getText().toString().trim()));
         int quantityInt = Integer.parseInt((mItemQuantityEditText.getText().toString().trim()));
         String supplierString = mItemSupplierEditText.getText().toString().trim();

@@ -159,13 +159,15 @@ public class InventoryProvider extends ContentProvider {
 
     //updates data at the given selection with the new ContentValues
     @Override
-    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs){
+    public int update(Uri uri, ContentValues contentValues, String selection,
+                      String[] selectionArgs){
         final int match = sUriMatcher.match(uri);
         switch(match){
             case INVENTORY:
                 return updateInventory(uri, contentValues, selection, selectionArgs);
             case INVENTORY_ID:
                 selection = InventoryContract.InventoryEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 return updateInventory(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported " + uri);
