@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.inventory_app.data.InventoryContract;
 
-//adapter for the list view of inventory data - created with list itme in the res layout
+//adapter for the list view of inventory data - created with list item in the res layout
 public class InventoryCursorAdapter extends CursorAdapter {
 
     //Construct a new Inventory
@@ -34,7 +34,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         //find the individual views from the xml list_item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.nameTextView);
-        //TextView price = (TextView) view.findViewById(R.id.price);
         TextView priceTextView = (TextView) view.findViewById(R.id.priceTextView);
         TextView quantityTextView = (TextView) view.findViewById(R.id.quantityTextView);
         //TextView supplierTextView = (TextView) view.findViewById(R.id.supplier_nameTextView);

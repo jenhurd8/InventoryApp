@@ -87,40 +87,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        //since the editor shows all item attributes, define a projection
-        String[] projection = {
-                InventoryContract.InventoryEntry._ID,
-                InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME,
-                InventoryContract.InventoryEntry.COLUMN_PRICE,
-                InventoryContract.InventoryEntry.COLUMN_QUANTITY,
-                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME,
-                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE};
-
-        return new CursorLoader(this,
-                mCurrentItemUri,
-                projection,
-                null,
-                null,
-                null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
     private void saveInventory(){
-       // read from inputs, use trim to remove leading and trailing whitespace
+        // read from inputs, use trim to remove leading and trailing whitespace
         String nameString = mItemNameEditText.getText().toString().trim();
-        int priceInt = Integer.parseInt(mItemPriceEditText.getText().toString().trim());
-        int quantityInt = Integer.parseInt(mItemQuantityEditText.getText().toString().trim());
+        int priceInt = Integer.parseInt((mItemPriceEditText.getText().toString().trim()));
+        int quantityInt = Integer.parseInt((mItemQuantityEditText.getText().toString().trim()));
         String supplierString = mItemSupplierEditText.getText().toString().trim();
         String supplierPhoneString = mItemSupplierPhoneEditText.getText().toString().trim();
 
@@ -160,7 +131,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         } else {
             //if existing item, update the content uri and pass values
             //pass null for selection and selection args since currentItemUri already identified
-
             int rowsAffected = getContentResolver().update(mCurrentItemUri, values, null, null);
 
             //show a toast for success or failure
@@ -208,9 +178,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 //exit
                 finish();
                 return true;
-        //respond  to delete menu option
+            //respond  to delete menu option
             //TODO
-          // case R.id.item_delete:
+            // case R.id.item_delete:
 
             case android.R.id.home:
                 //if item has not changed, continue to navigate to the parent activity
@@ -232,7 +202,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 showUnsavedChangesDialog(discareButtonClickListener);
                 return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -242,6 +212,68 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             super.onBackPressed();
             return;
         }
+    }
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        //since the editor shows all item attributes, define a projection
+        String[] projection = {
+                InventoryContract.InventoryEntry._ID,
+                InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME,
+                InventoryContract.InventoryEntry.COLUMN_PRICE,
+                InventoryContract.InventoryEntry.COLUMN_QUANTITY,
+                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME,
+                InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE};
+
+        return new CursorLoader(this,
+                mCurrentItemUri,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        //leave if cursor is null or less than one row in cursor
+        if (cursor == null || cursor.getCount() < 1) {
+            return;
+        }
+
+        //proceed with moving to the first row of data in the cursor and read it
+        //this should be the only row in the cursor
+        if(cursor.moveToFirst()){
+            //find the columns of item attributes
+            int nameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME);
+            int priceColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRICE);
+            int quantityColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_QUANTITY);
+            int supplierColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME);
+            int supplierPhoneColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE);
+
+            //extract the values from the Cursor at the given index
+            String name = cursor.getString(nameColumnIndex);
+            int price = cursor.getInt(priceColumnIndex);
+            int quantity = cursor.getInt(quantityColumnIndex);
+            String supplier = cursor.getString(supplierColumnIndex);
+            String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
+
+            //update the views on the screen with the values
+            mItemNameEditText.setText(name);
+            mItemPriceEditText.setText(String.valueOf(price));
+            mItemQuantityEditText.setText(String.valueOf(quantity));
+            mItemSupplierEditText.setText(supplier);
+            mItemSupplierPhoneEditText.setText(supplierPhone);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        //if loader is invalidated, clear out the data from the input fields
+        mItemNameEditText.setText("");
+        mItemPriceEditText.setSelection(0);
+        mItemQuantityEditText.setSelection(0);
+        mItemSupplierEditText.setText("");
+        mItemSupplierPhoneEditText.setText("");
+
     }
 
     private void showUnsavedChangesDialog(

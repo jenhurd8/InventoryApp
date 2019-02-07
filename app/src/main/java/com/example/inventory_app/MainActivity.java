@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements
     //method to delete all items
     private void deleteAllItems(){
         int rowsDeleted = getContentResolver().delete(InventoryContract.InventoryEntry.CONTENT_URI, null, null);
-        Log.v("MainActivity", rowsDeleted + " rows deleted from the inventory database");
+        Log.v("MainActivity", rowsDeleted + getString(R.string.rows_deleted));
     }
 
     @Override
