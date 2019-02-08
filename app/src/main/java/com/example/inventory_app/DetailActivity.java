@@ -2,6 +2,7 @@ package com.example.inventory_app;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -98,6 +99,53 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
+        Button incrementQuantity = (Button) findViewById(R.id.increment);
+        Button decrementQuantity = (Button) findViewById(R.id.decrement);
+        //////////////////////////////////////////
+
+
+
+//        incrementQuantity.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view){
+//                String quantityEditTextValue = mItemQuantityEditText.getText().toString();
+//                int quantityPlus = Integer.parseInt(quantityEditTextValue);
+//                quantityPlus++;
+//                ContentValues values = new ContentValues();
+//                values.put(InventoryContract.InventoryEntry.COLUMN_QUANTITY, quantityPlus);
+//                //int rowsAffected = getContentResolver().update(mCurrentItemUri, values, null, null)
+//
+//                int rowsAffected = getContentResolver().update(mCurrentItemUri, values, null, null);
+//
+//                // Show a toast message depending on whether or not the update was successful.
+//                if (rowsAffected == 0) {
+//                    // If no rows were affected, then there was an error with the update.
+//                    Toast.makeText(this, getString(R.string.editor_insert_item_failed),
+//                            Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // Otherwise, the update was successful and we can display a toast.
+//                    Toast.makeText(this, getString(R.string.editor_insert_item_success),
+//                            Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//
+//        });
+
+//        public void increment(View view) {
+//            quantity++;
+//            display(quantity);
+//        }
+//
+//        public void decrement(View view) {
+//            if(quantity==1){
+//                Toast.makeText(this, "You cannot have negative inventory", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            quantity--;
+//            display(quantity);
+//        }
+//
     }
 
 
@@ -369,4 +417,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
         finish();
     }
+
+
+
 }
