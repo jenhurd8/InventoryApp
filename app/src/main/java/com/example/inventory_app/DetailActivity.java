@@ -127,15 +127,22 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         // read from inputs, use trim to remove leading and trailing whitespace
 
         String nameString = mItemNameEditText.getText().toString().trim();
-//        if(nameString == null){
-//           Toast toast = Toast.makeText(getApplicationContext(),"name cannot be empty", Toast.LENGTH_SHORT);
-//            toast.show();
-//        }
-
         int priceInt = Integer.parseInt((mItemPriceEditText.getText().toString().trim()));
         int quantityInt = Integer.parseInt((mItemQuantityEditText.getText().toString().trim()));
         String supplierString = mItemSupplierEditText.getText().toString().trim();
         String supplierPhoneString = mItemSupplierPhoneEditText.getText().toString().trim();
+
+        if(nameString.length()<1){
+            Toast.makeText(this, "Name cannot be blank", Toast.LENGTH_SHORT).show();
+//        }else if(!(priceInt < -1)){
+//            Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
+//        }else if(!(quantityInt < -1)){
+//            Toast.makeText(this, "Please enter a valid quantity", Toast.LENGTH_SHORT).show();
+        } else if (supplierString.length()<1){
+            Toast.makeText(this, "Supplier cannot be blank", Toast.LENGTH_SHORT).show();
+        }else if (supplierPhoneString.length()<1){
+            Toast.makeText(this, "Supplier phone cannot be blank", Toast.LENGTH_SHORT).show();
+        } else {
 
         //check if new item and if all fields in the editor are blank
         if (mCurrentItemUri == null &&
@@ -185,6 +192,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, getString(R.string.editor_insert_item_success),
                         Toast.LENGTH_SHORT).show();
             }
+        }
         }
     }
 

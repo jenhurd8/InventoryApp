@@ -8,6 +8,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.inventory_app.DetailActivity;
+import com.example.inventory_app.MainActivity;
 
 //content provider for inventory app
 public class InventoryProvider extends ContentProvider {
@@ -106,6 +110,8 @@ public class InventoryProvider extends ContentProvider {
                 throw new IllegalArgumentException("Insertion is not supported for this uri " + uri);
         }
     }
+
+
 
     //insert inventory into the database with given content. return the new content uri for that row
     private Uri insertInventory(Uri uri, ContentValues values){
