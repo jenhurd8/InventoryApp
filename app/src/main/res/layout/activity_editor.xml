@@ -39,7 +39,8 @@
             android:id="@+id/edit_item_price"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/price" />
+            android:hint="@string/price"
+            android:inputType="number"/>
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +53,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Item quantity:  "
-            android:textSize="24dp"/>
+            android:textSize="24dp"
+            />
 
         <Button
             android:id="@+id/decrement"
@@ -66,7 +68,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:hint="@string/quantity" />
+            android:hint="@string/quantity"
+            android:inputType="number"/>
         <Button
             android:id="@+id/increment"
             android:layout_width="48dp"

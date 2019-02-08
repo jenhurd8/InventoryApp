@@ -102,97 +102,98 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         Button incrementQuantity = (Button) findViewById(R.id.increment);
         Button decrementQuantity = (Button) findViewById(R.id.decrement);
 
-        incrementQuantity.setOnClickListener(new View.OnClickListener(){
+        incrementQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-            int quantity = Integer.parseInt(mItemQuantityEditText.getText().toString());
-            quantity++;
-            mItemQuantityEditText.setText(""+ quantity);
+            public void onClick(View view) {
+                int quantity = Integer.parseInt(mItemQuantityEditText.getText().toString());
+                quantity++;
+                mItemQuantityEditText.setText("" + quantity);
             }
         });
 
-        decrementQuantity.setOnClickListener(new View.OnClickListener(){
+        decrementQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 int quantity = Integer.parseInt(mItemQuantityEditText.getText().toString());
                 quantity--;
-                mItemQuantityEditText.setText(""+ quantity);
+                mItemQuantityEditText.setText("" + quantity);
             }
         });
 
     }
 
-
     private void saveInventory() {
         // read from inputs, use trim to remove leading and trailing whitespace
 
         String nameString = mItemNameEditText.getText().toString().trim();
-        int priceInt = Integer.parseInt((mItemPriceEditText.getText().toString().trim()));
-        int quantityInt = Integer.parseInt((mItemQuantityEditText.getText().toString().trim()));
+        String priceInt = mItemPriceEditText.getText().toString().trim();
+       // int priceInt = Integer.parseInt((mItemPriceEditText.getText().toString().trim()));
+        //int quantityInt = Integer.parseInt((mItemQuantityEditText.getText().toString().trim()));
+        String quantityInt = mItemQuantityEditText.getText().toString().trim();
         String supplierString = mItemSupplierEditText.getText().toString().trim();
         String supplierPhoneString = mItemSupplierPhoneEditText.getText().toString().trim();
 
         if(nameString.length()<1){
             Toast.makeText(this, "Name cannot be blank", Toast.LENGTH_SHORT).show();
-//        }else if(!(priceInt < -1)){
-//            Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
-//        }else if(!(quantityInt < -1)){
-//            Toast.makeText(this, "Please enter a valid quantity", Toast.LENGTH_SHORT).show();
+        }else if(priceInt.length()<1){
+            Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
+        }else if(quantityInt.length() < 1){
+            Toast.makeText(this, "Please enter a valid quantity", Toast.LENGTH_SHORT).show();
         } else if (supplierString.length()<1){
             Toast.makeText(this, "Supplier cannot be blank", Toast.LENGTH_SHORT).show();
         }else if (supplierPhoneString.length()<1){
             Toast.makeText(this, "Supplier phone cannot be blank", Toast.LENGTH_SHORT).show();
         } else {
 
-        //check if new item and if all fields in the editor are blank
-        if (mCurrentItemUri == null &&
-                //need to add price int and quantity int checks
-                TextUtils.isEmpty(nameString) &&
-                TextUtils.isEmpty(getString(priceInt)) &&
-                TextUtils.isEmpty(getString(quantityInt)) &&
-                TextUtils.isEmpty(supplierString) &&
-                TextUtils.isEmpty(supplierPhoneString)) {
-            return;
-        }
+            //check if new item and if all fields in the editor are blank
+            if (mCurrentItemUri == null &&
+                    //need to add price int and quantity int checks
+                    TextUtils.isEmpty(nameString) &&
+                    TextUtils.isEmpty(priceInt) &&
+                    TextUtils.isEmpty(quantityInt) &&
+                    TextUtils.isEmpty(supplierString) &&
+                    TextUtils.isEmpty(supplierPhoneString)) {
+                return;
+            }
 
 //        Create a contentValues object where column names are keys and inventory
 //        attributes from the editor are the values
-        ContentValues values = new ContentValues();
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, nameString);
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRICE, priceInt);
-        values.put(InventoryContract.InventoryEntry.COLUMN_QUANTITY, quantityInt);
-        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME, supplierString);
-        values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
+            ContentValues values = new ContentValues();
+            values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, nameString);
+            values.put(InventoryContract.InventoryEntry.COLUMN_PRICE, priceInt);
+            values.put(InventoryContract.InventoryEntry.COLUMN_QUANTITY, quantityInt);
+            values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME, supplierString);
+            values.put(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE, supplierPhoneString);
 
-        //determine if new or existing item by checking mCurrentItemUri is null or no
-        if (mCurrentItemUri == null) {
-            //new item needs insert into provider and return uri
-            Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, values);
+            //determine if new or existing item by checking mCurrentItemUri is null or no
+            if (mCurrentItemUri == null) {
+                //new item needs insert into provider and return uri
+                Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, values);
 
-            //Show a toast message to confirm if successful or show failure
-            if (newUri == null) {
-                Toast.makeText(this, getString(R.string.editor_insert_item_failed),
-                        Toast.LENGTH_SHORT).show();
+                //Show a toast message to confirm if successful or show failure
+                if (newUri == null) {
+                    Toast.makeText(this, getString(R.string.editor_insert_item_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.editor_insert_item_success),
+                            Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(this, getString(R.string.editor_insert_item_success),
-                        Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            //if existing item, update the content uri and pass values
-            //pass null for selection and selection args since currentItemUri already identified
-            int rowsAffected = getContentResolver().update(mCurrentItemUri, values, null, null);
+                //if existing item, update the content uri and pass values
+                //pass null for selection and selection args since currentItemUri already identified
+                int rowsAffected = getContentResolver().update(mCurrentItemUri, values, null, null);
 
-            //show a toast for success or failure
-            if (rowsAffected == 0) {
-                //if no rows affected show error
-                Toast.makeText(this, getString(R.string.editor_insert_item_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                //success toast
-                Toast.makeText(this, getString(R.string.editor_insert_item_success),
-                        Toast.LENGTH_SHORT).show();
+                //show a toast for success or failure
+                if (rowsAffected == 0) {
+                    //if no rows affected show error
+                    Toast.makeText(this, getString(R.string.editor_insert_item_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    //success toast
+                    Toast.makeText(this, getString(R.string.editor_insert_item_success),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
-        }
         }
     }
 
