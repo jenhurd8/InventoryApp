@@ -4,15 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.inventory_app.data.InventoryContract.InventoryEntry;
-
 //database helper class for inventory app. manages db creation and versions
 public class InventoryDbHelper extends SQLiteOpenHelper {
 
-    public static final String LOG_TAG = InventoryDbHelper.class.getSimpleName();
-
     //name of the database file
-    //private static final String DATABASE_NAME = App.getContext().getResources().getString(R.string.inventory_db);
     private static final String DATABASE_NAME = "inventory.db";
 
     //database version, traditionally set at 1. changed database will increment this number

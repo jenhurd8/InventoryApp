@@ -2,7 +2,6 @@ package com.example.inventory_app;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -20,9 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.net.Uri;
 
 import com.example.inventory_app.data.InventoryContract;
 
@@ -65,8 +62,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         if (mCurrentItemUri == null) {
             //this is a new item, so change the app bar to say add item
             setTitle(getString(R.string.add_item));
+            Button buttonIncrement = (Button)findViewById(R.id.increment);
+            Button buttonDecrement = (Button)findViewById(R.id.decrement);
+            Button buttonCall = (Button)findViewById(R.id.call_supplier);
+            buttonDecrement.setVisibility(View.GONE);
+            buttonIncrement.setVisibility(View.GONE);
+            buttonCall.setVisibility(View.GONE);
         } else {
-            //otherwise if an existing pet, show edit item
+            //otherwise if an existing item, show edit item
             setTitle(getString(R.string.edit_item));
 
             //initialize the loader to read the item data from the database
@@ -102,6 +105,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         Button incrementQuantity = (Button) findViewById(R.id.increment);
         Button decrementQuantity = (Button) findViewById(R.id.decrement);
 
+
         incrementQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,7 +119,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onClick(View view) {
                 int quantity = Integer.parseInt(mItemQuantityEditText.getText().toString());
-                quantity--;
+                if (quantity > 0) {
+                    quantity--;
+                }
                 mItemQuantityEditText.setText("" + quantity);
             }
         });
@@ -124,35 +130,32 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     private void saveInventory() {
         // read from inputs, use trim to remove leading and trailing whitespace
-
         String nameString = mItemNameEditText.getText().toString().trim();
         String priceInt = mItemPriceEditText.getText().toString().trim();
-       // int priceInt = Integer.parseInt((mItemPriceEditText.getText().toString().trim()));
-        //int quantityInt = Integer.parseInt((mItemQuantityEditText.getText().toString().trim()));
         String quantityInt = mItemQuantityEditText.getText().toString().trim();
         String supplierString = mItemSupplierEditText.getText().toString().trim();
         String supplierPhoneString = mItemSupplierPhoneEditText.getText().toString().trim();
 
-        if(nameString.length()<1){
+        if (nameString.length() < 1) {
             Toast.makeText(this, "Name cannot be blank", Toast.LENGTH_SHORT).show();
-        }else if(priceInt.length()<1){
+        } else if (priceInt.length() < 1) {
             Toast.makeText(this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
-        }else if(quantityInt.length() < 1){
+        } else if (quantityInt.length() < 1) {
             Toast.makeText(this, "Please enter a valid quantity", Toast.LENGTH_SHORT).show();
-        } else if (supplierString.length()<1){
+        } else if (supplierString.length() < 1) {
             Toast.makeText(this, "Supplier cannot be blank", Toast.LENGTH_SHORT).show();
-        }else if (supplierPhoneString.length()<1){
+        } else if (supplierPhoneString.length() < 1) {
             Toast.makeText(this, "Supplier phone cannot be blank", Toast.LENGTH_SHORT).show();
         } else {
 
             //check if new item and if all fields in the editor are blank
             if (mCurrentItemUri == null &&
-                    //need to add price int and quantity int checks
                     TextUtils.isEmpty(nameString) &&
                     TextUtils.isEmpty(priceInt) &&
                     TextUtils.isEmpty(quantityInt) &&
                     TextUtils.isEmpty(supplierString) &&
                     TextUtils.isEmpty(supplierPhoneString)) {
+
                 return;
             }
 
@@ -246,7 +249,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 }
 
                 //otherwise unsaved changes, warn the user with a click listener
-                DialogInterface.OnClickListener discareButtonClickListener =
+                DialogInterface.OnClickListener discardButtonClickListener =
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -255,7 +258,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                             }
                         };
                 //show user a dialog there are unsaved changes
-                showUnsavedChangesDialog(discareButtonClickListener);
+                showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -315,14 +318,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             //update the views on the screen with the values
             mItemNameEditText.setText(name);
-//            mItemPriceEditText.setText(String.valueOf(price));
-//            mItemQuantityEditText.setText(String.valueOf(quantity));
             mItemPriceEditText.setText(Integer.toString(price));
             mItemQuantityEditText.setText(Integer.toString(quantity));
             mItemSupplierEditText.setText(supplier);
             mItemSupplierPhoneEditText.setText(supplierPhone);
         }
-
     }
 
 
@@ -401,55 +401,5 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
         finish();
     }
-
-
-    //  Button incrementQuantity = (Button) findViewById(R.id.increment);
-//    Button decrementQuantity = (Button) findViewById(R.id.decrement);
-//
-//    incrementQuantity.OnClickListener(){
-//
-//    }
-
-    //        incrementQuantity.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                String quantityEditTextValue = mItemQuantityEditText.getText().toString();
-//                int quantityPlus = Integer.parseInt(quantityEditTextValue);
-//                quantityPlus++;
-//                ContentValues values = new ContentValues();
-//                values.put(InventoryContract.InventoryEntry.COLUMN_QUANTITY, quantityPlus);
-//                //int rowsAffected = getContentResolver().update(mCurrentItemUri, values, null, null)
-//
-//                int rowsAffected = getContentResolver().update(mCurrentItemUri, values, null, null);
-//
-//                // Show a toast message depending on whether or not the update was successful.
-//                if (rowsAffected == 0) {
-//                    // If no rows were affected, then there was an error with the update.
-//                    Toast.makeText(this, getString(R.string.editor_insert_item_failed),
-//                            Toast.LENGTH_SHORT).show();
-//                } else {
-//                    // Otherwise, the update was successful and we can display a toast.
-//                    Toast.makeText(this, getString(R.string.editor_insert_item_success),
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//
-//        });
-
-//        public void increment(View view) {
-//            quantity++;
-//            display(quantity);
-//        }
-//
-//        public void decrement(View view) {
-//            if(quantity==1){
-//                Toast.makeText(this, "You cannot have negative inventory", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            quantity--;
-//            display(quantity);
-//        }
-//
 
 }

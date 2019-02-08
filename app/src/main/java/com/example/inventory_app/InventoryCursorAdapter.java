@@ -1,13 +1,10 @@
 package com.example.inventory_app;
 
-import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,23 +40,16 @@ public class InventoryCursorAdapter extends CursorAdapter {
         TextView nameTextView = (TextView) view.findViewById(R.id.nameTextView);
         TextView priceTextView = (TextView) view.findViewById(R.id.priceTextView);
         TextView quantityTextView = (TextView) view.findViewById(R.id.quantityTextView);
-        //TextView supplierTextView = (TextView) view.findViewById(R.id.supplier_nameTextView);
-        //TextView supplierPhoneTextView = (TextView) view.findViewById(R.id.supplier_phoneTextView);
-
 
         //find the columns of the attributes we are interested in
         int nameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_QUANTITY);
-        //int supplierNameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME);
-        //int supplierPhoneColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE);
 
         //read the item attributes for the cursor of the current item
         String itemName = cursor.getString(nameColumnIndex);
         int itemPrice = cursor.getInt(priceColumnIndex);
         final int itemQuantity = cursor.getInt(quantityColumnIndex);
-        // String supplierName = cursor.getString(supplierNameColumnIndex);
-        //String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
 
         //Update the textViews with the attributes of the current item
         nameTextView.setText(itemName);

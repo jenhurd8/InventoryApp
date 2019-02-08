@@ -8,47 +8,47 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
-        <RelativeLayout
-            android:id="@+id/empty_view"
+    <RelativeLayout
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/empty_view_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icons8_empty_box_48" />
 
-            <ImageView
-                android:id="@+id/empty_view_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/icons8_empty_box_48"/>
+        <TextView
+            android:id="@+id/empty_view_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/empty_view_image"
+            android:layout_centerHorizontal="true"
+            android:text="@string/there_is_nothing_here_to_see" />
 
-            <TextView
-                android:id="@+id/empty_view_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/empty_view_image"
-                android:layout_centerHorizontal="true"
-                android:text="@string/there_is_nothing_here_to_see"/>
+        <TextView
+            android:id="@+id/empty_view_text_view2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/empty_view_text_view"
+            android:layout_centerHorizontal="true"
+            android:text="@string/add_an_item" />
 
-            <TextView
-                android:id="@+id/empty_view_text_view2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/empty_view_text_view"
-                android:layout_centerHorizontal="true"
-                android:text="@string/add_an_item"/>
-
-        </RelativeLayout>
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_add_black_24dp"
-        android:layout_margin="16dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_black_24dp" />
 
 </RelativeLayout>

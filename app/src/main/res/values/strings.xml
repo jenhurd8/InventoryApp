@@ -1,18 +1,12 @@
 <resources>
     <!-- database constant values -->
     <string name="app_name">Inventory_App</string>
-    <string name="inventory">inventory</string>
     <string name="name">name</string>
     <string name="supplier_name">supplier_name</string>
     <string name="supplier_phone">supplier_phone</string>
-    <string name="inventory_db">inventory.db</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
     <string name="price">price</string>
     <string name="quantity">quantity</string>
 
-    <!-- app name -->
-    <string name="my_inventory_app">My Inventory App</string>
 
     <!-- strings for testing -->
     <string name="add_test_data_item">Add mock data item</string>
@@ -23,7 +17,6 @@
     <string name="edit_item">Edit an item</string>
 
     <!-- editor strings -->
-    <string name="item_name">Item Name</string>
     <string name="editor_insert_item_failed">Your insertion has failed</string>
     <string name="editor_insert_item_success">Your insertion was successful!</string>
 
@@ -44,5 +37,14 @@
     <string name="error_delete">Error deleting item</string>
     <string name="item_deleted">Item deleted</string>
     <string name="delete_this_item">Delete this item</string>
+    <string name="item_name2">Item name:</string>
+    <string name="item_price">Item price:</string>
+    <string name="item_quantity">Item quantity:</string>
+    <string name="dash">-</string>
+    <string name="plus">+</string>
+    <string name="supplier_title">Supplier:</string>
+    <string name="supplier_phone_title">Supplier phone:</string>
+    <string name="call_in_new_order">Call in new order</string>
+    <string name="dollar_sign">$</string>
 
 </resources>

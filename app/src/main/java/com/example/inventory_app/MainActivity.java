@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.inventory_app.data.InventoryContract;
@@ -28,9 +27,6 @@ public class MainActivity extends AppCompatActivity implements
     private static final int INVENTORY_LOADER = 0;
 
     InventoryCursorAdapter mCursorAdapter;
-
-    //database helper that will provide us with access to the database - m for member variable
-   // private InventoryDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements
 
     //helper method to test hard coded data, testing only
     private void insertInventoryItem() {
-        //puts database in write-able mode
-        //SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         //create contentValues object with column names as keys and attributes as values
         ContentValues values = new ContentValues();
@@ -99,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     //method to delete all items
-    private void deleteAllItems(){
+    private void deleteAllItems() {
         int rowsDeleted = getContentResolver().delete(InventoryContract.InventoryEntry.CONTENT_URI, null, null);
         Log.v("MainActivity", rowsDeleted + getString(R.string.rows_deleted));
     }
@@ -145,24 +139,24 @@ public class MainActivity extends AppCompatActivity implements
                 InventoryContract.InventoryEntry.COLUMN_SUPPLIER_NAME,
                 InventoryContract.InventoryEntry.COLUMN_SUPPLIER_PHONE};
 
-                return new CursorLoader(this,
-                        InventoryContract.InventoryEntry.CONTENT_URI,
-                        projection,
-                        null,
-                        null,
-                        null);
-        }
+        return new CursorLoader(this,
+                InventoryContract.InventoryEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
 
     @Override
-    public void onLoadFinished(Loader <Cursor> loader, Cursor data) {
-    //update cursor with inventory data
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        //update cursor with inventory data
         mCursorAdapter.swapCursor(data);
     }
 
     @Override
-    public void onLoaderReset(Loader <Cursor> loader) {
-    //delete data from cursor
-       mCursorAdapter.swapCursor(null);
+    public void onLoaderReset(Loader<Cursor> loader) {
+        //delete data from cursor
+        mCursorAdapter.swapCursor(null);
     }
 
 }

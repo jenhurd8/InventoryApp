@@ -12,16 +12,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Item name:  "
-            android:textSize="24dp"
-            />
+            android:text="@string/item_name2"
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/edit_item_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/name"
-            />
+            android:hint="@string/name" />
     </LinearLayout>
 
     <LinearLayout
@@ -29,39 +27,37 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:paddingTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Item price:  "
-            android:textSize="24dp"/>
+            android:paddingTop="8dp"
+            android:text="@string/item_price"
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/edit_item_price"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/price"
-            android:inputType="number"/>
+            android:inputType="number" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
-            android:paddingTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Item quantity:  "
-            android:textSize="24dp"
-            />
+            android:paddingTop="8dp"
+            android:text="@string/item_quantity"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/decrement"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:onClick="decrement"
-            android:text="-" />
+            android:text="@string/dash" />
 
         <EditText
             android:id="@+id/edit_item_quantity"
@@ -69,13 +65,13 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:hint="@string/quantity"
-            android:inputType="number"/>
+            android:inputType="number" />
+
         <Button
             android:id="@+id/increment"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:onClick="increment"
-            android:text="+" />
+            android:text="@string/plus" />
 
     </LinearLayout>
 
@@ -84,11 +80,11 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:paddingTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Supplier:  "
-            android:textSize="24dp"/>
+            android:paddingTop="8dp"
+            android:text="@string/supplier_title"
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/edit_item_supplier_name"
@@ -102,11 +98,11 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:paddingTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Supplier phone:  "
-            android:textSize="24dp"/>
+            android:paddingTop="8dp"
+            android:text="@string/supplier_phone_title"
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/edit_supplier_phone_number"
@@ -114,11 +110,12 @@
             android:layout_height="match_parent"
             android:hint="@string/supplier_phone" />
     </LinearLayout>
+
     <Button
         android:id="@+id/call_supplier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Call in new order" />
+        android:text="@string/call_in_new_order" />
 </LinearLayout>
 
 
